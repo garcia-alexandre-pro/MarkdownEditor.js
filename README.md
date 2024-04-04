@@ -1,7 +1,7 @@
 # MarkdownEditor.js
 JavaScript Markdown editor
 
-I developped this JavaScript Markdown editor some time ago, I share in case it could be helpful to someone, feel free to copy, reuse and modify.
+I developped this JavaScript Markdown editor some time ago, I share it in case it could be helpful to someone, feel free to copy, reuse and modify.
 
 This editor is only a web interface, I use it in conjunction with Markdig on .NET web applications.
 
