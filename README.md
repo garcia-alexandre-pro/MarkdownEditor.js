@@ -3,7 +3,7 @@ JavaScript Markdown editor
 
 I developped this JavaScript Markdown editor some time ago, I share it in case it could be helpful to someone, feel free to copy, reuse and modify.
 
-This editor is only a web interface, I use it in conjunction with Markdig on .NET web applications.
+This editor is only a web interface, I use it in conjunction with Markdig on .NET web applications. The server is called using AJAX.
 
 Here, you'll find an example of how to use it:
 
