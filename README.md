@@ -36,7 +36,8 @@ Then, you'll need to instanciate the editor using JavaScript.
         imageUploadUrl: "/Attachment/UploadMarkdownEditorImage",
         imageDownloadUrl: "/Attachment/Download?key=",
         markdownPreview: $("#markdownPreview"),
-        cheatSheetUrl: "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+        cheatSheetUrl: "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet",
+        requestVerificationToken: $('[name=__RequestVerificationToken]').val()
     });
 
 As I said before, I use Markdig server side to process the input text into something presentable. You should fill the url parameter to point to the server action in charge of processing your text, here is my code.
@@ -67,5 +68,9 @@ As I use FontAwesome for the buttons' icons, you can configure the icon style (o
 You can also configure the accepted file extensions for the images you upload to your server, default are JPG and PNG only.
 
     acceptedImageExtensions: ".jpg,.png"
+
+For security sake, you can pass the requestVerificationToken to your server, the request is a POST request.
+
+    requestVerificationToken: null
 
 Here we go, implementation is as simple as that.
