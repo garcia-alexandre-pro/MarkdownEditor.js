@@ -2,6 +2,9 @@
     $.fn.MarkdownEditor = (function (options) {
         var editor = this;
 
+        var postTimer = null;
+        var postTimeout = 500;
+
 
 
         options = $.extend({
@@ -70,14 +73,18 @@
         options.markdownPreview.addClass("markdown-preview");
 
         $(editor).on("input", function (e) {
-            Post(options.url,
-                {
-                    __RequestVerificationToken: options.requestVerificationToken,
-                    markdownContent: $(e.target).val()
-                },
-                function (htmlResult) {
-                    options.markdownPreview.html(htmlResult);
-                });
+            clearTimeout(postTimer);
+
+            postTimer = setTimeout(function () {
+                Post(options.url,
+                    {
+                        __RequestVerificationToken: options.requestVerificationToken,
+                        markdownContent: $(e.target).val()
+                    },
+                    function (htmlResult) {
+                        options.markdownPreview.html(htmlResult);
+                    });
+            }, postTimeout);
         });
 
         editor.trigger("input");
