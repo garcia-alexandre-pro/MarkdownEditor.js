@@ -5,9 +5,15 @@
 
 
         options = $.extend({
+            //url: "/Markdown/ConvertToHtml",
+            //imageUploadUrl: "/Attachment/UploadMarkdownEditorImage",
+            //imageDownloadUrl: "/Attachment/Download?key=",
+            //markdownPreview: $("#markdownPreview"),
+            //cheatSheetUrl: "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet",
             toolbarConfiguration: ["bold", "italic", "|", "code", "quote", "link", "image", "|", "title", "subtitle", "ordered list", "unordered list"],
             fontAwesomeIconType: "fal",
-            acceptedImageExtensions: ".jpg,.png"
+            acceptedImageExtensions: ".jpg,.png",
+            requestVerificationToken: null
         }, options);
 
 
@@ -66,7 +72,7 @@
         $(editor).on("input", function (e) {
             Post(options.url,
                 {
-                    __RequestVerificationToken: $('[name=__RequestVerificationToken]').val(),
+                    __RequestVerificationToken: options.requestVerificationToken,
                     markdownContent: $(e.target).val()
                 },
                 function (htmlResult) {
@@ -217,7 +223,10 @@
                 var data = new FormData();
 
                 data.append("file", $(e.target)[0].files[0]);
-                data.append("__RequestVerificationToken", $('[name=__RequestVerificationToken]').val());
+
+                if (options.requestVerificationToken != null) {
+                    data.append("__RequestVerificationToken", options.requestVerificationToken);
+                }
 
                 $.ajax({ // upload file asynchronously through ajax
                     url: options.imageUploadUrl,
