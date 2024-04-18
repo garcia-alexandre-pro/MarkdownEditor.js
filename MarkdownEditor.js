@@ -35,7 +35,7 @@
         var bindings = [
             { name: "bold", icon: "fa-bold", eventHandler: "toggleBlock", startBlock: '**', endBlock: '**', altStartBlock: '__', altEndBlock: '__' },
             { name: "italic", icon: "fa-italic", eventHandler: "toggleBlock", startBlock: '*', endBlock: '*', altStartBlock: '_', altEndBlock: '_' },
-            { name: "code", icon: "fa-code", eventHandler: "toggleBlock", startBlock: '```\n', endBlock: '\n```', altStartBlock: '~~~\n', altEndBlock: '\n~~~' },
+            { name: "code", icon: "fa-code", eventHandler: "toggleBlock", startBlock: '\n```\n', endBlock: '\n```\n', altStartBlock: '\n~~~\n', altEndBlock: '\n~~~\n' },
             { name: "quote", icon: "fa-quote-right", eventHandler: "toggleBlock", startBlock: '> ', endBlock: '\n', altStartBlock: '>', altEndBlock: '\n' },
             { name: "link", icon: "fa-link", eventHandler: "insertLink", startBlock: '[', endBlock: ']' },
             { name: "image", icon: "fa-image", eventHandler: "browseImage", startBlock: '![', endBlock: ']' },
