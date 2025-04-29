@@ -1,9 +1,8 @@
 (function ($) {
     $.fn.MarkdownEditor = (function (options) {
-        var editor = this;
+        let editor = this;
 
-        var postTimer = null;
-        var postTimeout = 500;
+        let postTimer = null;
 
 
 
@@ -16,7 +15,8 @@
             toolbarConfiguration: ["bold", "italic", "|", "code", "quote", "link", "image", "|", "title", "subtitle", "ordered list", "unordered list"],
             fontAwesomeIconType: "fal",
             acceptedImageExtensions: ".jpg,.png",
-            requestVerificationToken: null
+            requestVerificationToken: null,
+            postTimeout: 500
         }, options);
 
 
@@ -32,7 +32,7 @@
 
 
         // Mapping of actions that can be bound to toolbar buttons
-        var bindings = [
+        const bindings = [
             { name: "bold", icon: "fa-bold", eventHandler: "toggleBlock", startBlock: '**', endBlock: '**', altStartBlock: '__', altEndBlock: '__' },
             { name: "italic", icon: "fa-italic", eventHandler: "toggleBlock", startBlock: '*', endBlock: '*', altStartBlock: '_', altEndBlock: '_' },
             { name: "code", icon: "fa-code", eventHandler: "toggleBlock", startBlock: '\n```\n', endBlock: '\n```\n', altStartBlock: '\n~~~\n', altEndBlock: '\n~~~\n' },
@@ -48,13 +48,13 @@
 
 
         // Generating the configured toolbar
-        var buttons = options.toolbarConfiguration
+        let buttons = options.toolbarConfiguration
             .map((name) => {
                 if (name === "" || name === "|" || name === "s" || name === "sep" || name === "separator") {
                     return `<i class="separator"></i>`;
                 }
 
-                var binding = bindings.find(x => x.name === name)
+                let binding = bindings.find(x => x.name === name)
 
                 return `<div class="btn btn-sm btn-secondary me-2" data-action="${binding.name}"><i class="${options.fontAwesomeIconType} ${binding.icon}"></i></div>`;
             })
@@ -84,7 +84,7 @@
                     function (htmlResult) {
                         options.markdownPreview.html(htmlResult);
                     });
-            }, postTimeout);
+            }, options.postTimeout);
         });
 
         editor.trigger("input");
@@ -93,7 +93,7 @@
 
         // Toolbar buttons click
         $(editor).parent().on("click", ".markdown-editor-toolbar .btn[data-action]", function (e) {
-            var binding = bindings.find(x => x.name === $(e.target).data("action"));
+            let binding = bindings.find(x => x.name === $(e.target).data("action"));
 
             switch (binding.eventHandler) {
                 case "insertLink":
@@ -112,23 +112,23 @@
 
         // Inserting a link (hyperlink or image)
         function insertLink(binding, link) {
-            var startPoint = editor.prop("selectionStart");
-            var endPoint = editor.prop("selectionEnd");
+            let startPoint = editor.prop("selectionStart");
+            let endPoint = editor.prop("selectionEnd");
 
-            var text = editor.val().substring(startPoint, endPoint);
+            let text = editor.val().substring(startPoint, endPoint);
 
             if (text == null || text.length == 0) {
                 text = binding.name;
             }
 
-            var linkStartPoint = startPoint + text.length + binding.endBlock.length + 1;
+            let linkStartPoint = startPoint + text.length + binding.endBlock.length + 1;
 
             // If the block is already active, we select the link
             if (binding.startBlock === editor.val().slice(startPoint - binding.startBlock.length, startPoint)
                 && binding.endBlock === editor.val().slice(endPoint, linkStartPoint - 1)) {
-                var following = editor.val().slice(linkStartPoint - 1);
+                let following = editor.val().slice(linkStartPoint - 1);
 
-                var selectionStart = startPoint - binding.startBlock.length,
+                let selectionStart = startPoint - binding.startBlock.length,
                     selectionEnd = endPoint - binding.startBlock.length;
 
                 switch (following.charAt(0)) {
@@ -136,7 +136,7 @@
                         selectionStart = linkStartPoint;
                         selectionEnd = linkStartPoint + following.indexOf("]") - 1;
 
-                        //var reference = following.slice(0, following.indexOf("]") + 1);
+                        //let reference = following.slice(0, following.indexOf("]") + 1);
                         // TODO: select the referenced link
                         break;
                     case "(":
@@ -170,8 +170,8 @@
 
         // Opening the file browser in order to upload a picture
         function browseImage() {
-            var selectionStart = editor.prop("selectionStart");
-            var selectionEnd = editor.prop("selectionEnd");
+            let selectionStart = editor.prop("selectionStart");
+            let selectionEnd = editor.prop("selectionEnd");
 
             $("#imageBrowser").click();
 
@@ -183,10 +183,10 @@
 
         // Toggling a styling block
         function toggleBlock(binding) {
-            var startPoint = editor.prop("selectionStart");
-            var endPoint = editor.prop("selectionEnd");
+            let startPoint = editor.prop("selectionStart");
+            let endPoint = editor.prop("selectionEnd");
 
-            var text = editor.val().substring(startPoint, endPoint);
+            let text = editor.val().substring(startPoint, endPoint);
 
             // If the block is already active, we deactivate it by removing the starting and ending characters
             if (binding.startBlock === editor.val().slice(startPoint - binding.startBlock.length, startPoint)
@@ -227,7 +227,7 @@
             function (e) {
                 toaster.toast({ content: "En cours de traitement.", configurationName: "info" });
 
-                var data = new FormData();
+                let data = new FormData();
 
                 data.append("file", $(e.target)[0].files[0]);
 
